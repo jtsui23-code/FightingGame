@@ -37,11 +37,12 @@ class Sprite {
         
         // Moves player to the ground
         this.position.y +=  this.velocity.y
+        this.position.x += this.velocity.x
 
         // Prevents player from moving past the bottom of the canvas.
         if (this.position.y + this.size.height + this.velocity.y >= canvas.height){
             this.velocity.y = 0
-            
+
         } else {
 
             this.velocity.y += gravity
@@ -102,5 +103,40 @@ function animate() {
 }
 
 animate()
+
+window.addEventListener('keydown', (event) => {
+    switch(event.key){
+        case 'd':
+            player.velocity.x = 1
+            break
+
+        case 'a':
+            player.velocity.x = -1
+            break
+        
+        case 'w':
+            player.velocity.y = -10
+            break
+        
+    }
+    console.log(event)
+})
+
+
+window.addEventListener('keyup', (event) => {
+    switch(event.key){
+        case 'd':
+            player.velocity.x = 0
+            break
+
+        case 'a':
+            player.velocity.x = 0
+            break
+
+        case 'w':
+            player.velocity.y = 0
+            break
+    }
+})
 
 
