@@ -98,6 +98,7 @@ const keys = {
 }
 
 
+
 // animate function loops forever used for animating sprites and objects.
 function animate() {
     window.requestAnimationFrame(animate)
@@ -112,7 +113,12 @@ function animate() {
 
     player.velocity.x = 0
     
-    if (keys.a.pressed){
+    if (keys.a.pressed && keys.d.pressed){
+
+        player.velocity.x = 0
+        
+    } else if (keys.a.pressed){
+
         player.velocity.x = -1
 
     }  else if (keys.d.pressed) {
@@ -131,10 +137,13 @@ window.addEventListener('keydown', (event) => {
         case 'd':
 
             keys.d.pressed = true
+            lastKey = 'd'
             break
 
         case 'a':
             keys.a.pressed = true
+            lastKey = 'a'
+
             break
         
         case 'w':
