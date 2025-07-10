@@ -28,6 +28,11 @@ class Sprite {
         c.fillStyle = color
         c.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
     }
+
+    update() {
+        this.draw("red")
+        this.position.y += 10
+    }
 }
 
 const player = new Sprite({
@@ -65,14 +70,20 @@ position: {
 
 })
 
-enemy.draw('red')
 
-player.draw('green')
 
 
 // animate function loops forever used for animating sprites and objects.
 function animate() {
     window.requestAnimationFrame(animate)
+
+    // Prevents bleeding effect when moving sprites across the canvas.
+    c.fillStyle = 'black'
+     c.fillRect(0, 0, canvas.width, canvas.height)
+
+    player.update()
+    enemy.update()
+
 }
 
 animate()
