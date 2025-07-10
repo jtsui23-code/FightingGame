@@ -94,6 +94,14 @@ const keys = {
 
     d:{
         pressed:false
+    },
+
+    arrowRight:{
+        pressed:false
+    },
+
+    arrowLeft:{
+        pressed:false
     }
 }
 
@@ -116,7 +124,7 @@ function animate() {
     if (keys.a.pressed && keys.d.pressed){
 
         player.velocity.x = 0
-        
+
     } else if (keys.a.pressed){
 
         player.velocity.x = -1
@@ -124,6 +132,22 @@ function animate() {
     }  else if (keys.d.pressed) {
 
         player.velocity.x = 1
+
+    }
+
+    enemy.velocity.x = 0
+
+    if (keys.arrowRight.pressed && keys.arrowLeft.pressed){
+
+        enemy.velocity.x = 0
+
+    } else if (keys.arrowRight.pressed) {
+
+        enemy.velocity.x = 1
+
+    } else if (keys.arrowLeft.pressed) {
+
+        enemy.velocity.x = -1
 
     }
 
@@ -137,18 +161,24 @@ window.addEventListener('keydown', (event) => {
         case 'd':
 
             keys.d.pressed = true
-            lastKey = 'd'
             break
 
         case 'a':
             keys.a.pressed = true
-            lastKey = 'a'
-
             break
         
         case 'w':
             player.velocity.y = -10
             break
+        
+        case 'ArrowRight':
+            keys.arrowRight.pressed = true
+            break
+
+        case 'ArrowLeft':
+            keys.arrowLeft.pressed = true
+            break
+
         
     }
     console.log(event)
@@ -168,6 +198,16 @@ window.addEventListener('keyup', (event) => {
         case 'w':
             player.velocity.y = 0
             break
+        
+        case 'ArrowRight':
+            keys.arrowRight.pressed = false
+            break
+
+        case 'ArrowLeft':
+            keys.arrowLeft.pressed = false
+            break
+
+        
     }
 })
 
