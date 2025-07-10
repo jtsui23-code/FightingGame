@@ -12,6 +12,9 @@ canvas.height = 576
 c.fillStyle = 'white'
 c.fillRect(0,0, canvas.width, canvas.height)
 
+
+const gravity = 0.2
+
 // Created sprite class that the player and enemy are objects of.
 class Sprite {
 
@@ -31,7 +34,19 @@ class Sprite {
 
     update() {
         this.draw("red")
-        this.position.y += 10
+        
+        // Moves player to the ground
+        this.position.y +=  this.velocity.y
+
+        // Prevents player from moving past the bottom of the canvas.
+        if (this.position.y + this.size.height + this.velocity.y >= canvas.height){
+            this.velocity.y = 0
+            
+        } else {
+
+            this.velocity.y += gravity
+
+        }
     }
 }
 
