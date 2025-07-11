@@ -26,7 +26,11 @@ class Sprite {
         this.size = size
         this.velocity = velocity
         this.attackBox = {
-            position: this.position,
+            position: {
+                x: this.position.x,
+                y: this.position.y
+
+            },
             width: 100,
             height: 50
         }
@@ -49,7 +53,18 @@ class Sprite {
         
     }
 
-    update(spriteColor) {
+    update(spriteColor, type) {
+        
+        this.attackBox.position.y = this.position.y
+
+        if (type === 'enemy') {
+            this.attackBox.position.x = this.position.x -this.attackBox.width + this.size.width
+        } else {
+            this.attackBox.position.x = this.position.x
+        }
+
+
+        
         this.draw(spriteColor)
         
         // Moves player to the ground
@@ -142,7 +157,7 @@ function animate() {
      c.fillRect(0, 0, canvas.width, canvas.height)
 
     player.update('blue')
-    enemy.update('red')
+    enemy.update('red', 'enemy')
 
 
     player.velocity.x = 0
@@ -221,6 +236,10 @@ window.addEventListener('keydown', (event) => {
 
         case ' ':
             player.attack()
+            break
+
+        case 'o':
+            enemy.attack()
             break
 
         
