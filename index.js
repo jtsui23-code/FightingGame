@@ -146,6 +146,13 @@ const keys = {
     }
 }
 
+function rectCollision(rect1, rect2) {
+    return (rect1.attackBox.position.x + rect1.attackBox.width >= rect2.position.x 
+        && rect1.attackBox.position.x <= rect2.position.x + rect2.size.width
+        && rect1.attackBox.height + rect1.attackBox.y >= rect2.position.y
+        && rect1.position.y <= rect2.attackBox.height + rect2.attackBox.y
+        && rect1.isAttacking) 
+}
 
 
 // animate function loops forever used for animating sprites and objects.
@@ -192,15 +199,17 @@ function animate() {
 
     }
 
-    // Detecting attack box collision
-    if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x 
-        && player.attackBox.position.x <= enemy.position.x + enemy.size.width
-        && player.attackBox.height + player.attackBox.y >= enemy.position.y
-        && player.position.y <= enemy.attackBox.height + enemy.attackBox.y
-        && player.isAttacking) {
+    // Detecting attack box collision for player attacking enemy.
+    if (rectCollision(player, enemy)) {
 
         player.isAttacking = false
-        console.log("Player hit enemy")
+    } 
+
+    // Detecting attack box collision for enemy attacking player.
+    if (rectCollision(enemy, player)) {
+
+        enemy.isAttacking = false
+
     }
 
 }
@@ -233,12 +242,13 @@ window.addEventListener('keydown', (event) => {
         
         case 'ArrowUp':
             enemy.velocity.y = -20
+            break
 
         case ' ':
             player.attack()
             break
 
-        case 'o':
+        case 'ArrowDown':
             enemy.attack()
             break
 
