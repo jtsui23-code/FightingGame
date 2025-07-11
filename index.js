@@ -30,6 +30,8 @@ class Sprite {
             width: 100,
             height: 50
         }
+
+        this.isAttacking = false
     }
 
     draw(color) {
@@ -37,10 +39,14 @@ class Sprite {
         // Rendering the sprite
         c.fillStyle = color
         c.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+        
+        if (this.isAttacking){
+            // Rendering the attack box
+            c.fillStyle = 'green'
+            c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
 
-        // Rendering the attack box
-        c.fillStyle = 'green'
-        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+        }
+        
     }
 
     update(spriteColor) {
@@ -59,6 +65,15 @@ class Sprite {
             this.velocity.y += gravity
 
         }
+    }
+
+    attack() {
+        this.isAttacking = true
+
+        // Adding attack duration
+        setTimeout(() => {
+            this.isAttacking = false
+        }, 100)
     }
 }
 
@@ -162,6 +177,17 @@ function animate() {
 
     }
 
+    // Detecting attack box collision
+    if (player.attackBox.position.x + player.attackBox.width >= enemy.position.x 
+        && player.attackBox.position.x <= enemy.position.x + enemy.size.width
+        && player.attackBox.height + player.attackBox.y >= enemy.position.y
+        && player.position.y <= enemy.attackBox.height + enemy.attackBox.y
+        && player.isAttacking) {
+
+        player.isAttacking = false
+        console.log("Player hit enemy")
+    }
+
 }
 
 
@@ -192,6 +218,10 @@ window.addEventListener('keydown', (event) => {
         
         case 'ArrowUp':
             enemy.velocity.y = -20
+
+        case ' ':
+            player.attack()
+            break
 
         
     }
