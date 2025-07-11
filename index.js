@@ -13,7 +13,7 @@ c.fillStyle = 'white'
 c.fillRect(0,0, canvas.width, canvas.height)
 
 
-const gravity = 0.2
+const gravity = 0.7
 
 // Created sprite class that the player and enemy are objects of.
 class Sprite {
@@ -25,15 +25,26 @@ class Sprite {
         this.position = position
         this.size = size
         this.velocity = velocity
+        this.attackBox = {
+            position: this.position,
+            width: 100,
+            height: 50
+        }
     }
 
     draw(color) {
+
+        // Rendering the sprite
         c.fillStyle = color
         c.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+
+        // Rendering the attack box
+        c.fillStyle = 'green'
+        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
     }
 
-    update() {
-        this.draw("red")
+    update(spriteColor) {
+        this.draw(spriteColor)
         
         // Moves player to the ground
         this.position.y +=  this.velocity.y
@@ -115,8 +126,8 @@ function animate() {
     c.fillStyle = 'black'
      c.fillRect(0, 0, canvas.width, canvas.height)
 
-    player.update()
-    enemy.update()
+    player.update('blue')
+    enemy.update('red')
 
 
     player.velocity.x = 0
@@ -127,11 +138,11 @@ function animate() {
 
     } else if (keys.a.pressed){
 
-        player.velocity.x = -1
+        player.velocity.x = -5
 
     }  else if (keys.d.pressed) {
 
-        player.velocity.x = 1
+        player.velocity.x = 5
 
     }
 
@@ -143,11 +154,11 @@ function animate() {
 
     } else if (keys.arrowRight.pressed) {
 
-        enemy.velocity.x = 1
+        enemy.velocity.x = 5
 
     } else if (keys.arrowLeft.pressed) {
 
-        enemy.velocity.x = -1
+        enemy.velocity.x = -5
 
     }
 
@@ -168,7 +179,7 @@ window.addEventListener('keydown', (event) => {
             break
         
         case 'w':
-            player.velocity.y = -10
+            player.velocity.y = -20
             break
         
         case 'ArrowRight':
@@ -180,7 +191,7 @@ window.addEventListener('keydown', (event) => {
             break
         
         case 'ArrowUp':
-            enemy.velocity.y = -10
+            enemy.velocity.y = -20
 
         
     }
