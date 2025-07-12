@@ -21,10 +21,11 @@ class Sprite {
     // Making the parameters one object so its not obligatory to pass every single 
     // one of them in and it no longer matters what order the parameters are passed in which helps for later
     // development when the parameters in the Sprite constructor becomes longer.
-    constructor({position,size, velocity}){
+    constructor({position,size, velocity, health}){
         this.position = position
         this.size = size
         this.velocity = velocity
+        this.health = health
         this.attackBox = {
             position: {
                 x: this.position.x,
@@ -82,6 +83,14 @@ class Sprite {
         }
     }
 
+    takeDMG(dmg) {
+        this.health -= dmg
+
+        if(this.health < 0) {
+            this.health = 0
+        }
+    }
+
     attack() {
         this.isAttacking = true
 
@@ -105,7 +114,9 @@ position:{
 }, velocity:{
     x:0,
     y:0
-}
+
+},
+   health: 100
 
 })
 
@@ -123,7 +134,10 @@ position: {
 
     x:0,
     y:0
-}
+},
+
+  health: 100
+
 
 })
 
@@ -149,10 +163,12 @@ const keys = {
 function rectCollision(rect1, rect2) {
     return (rect1.attackBox.position.x + rect1.attackBox.width >= rect2.position.x 
         && rect1.attackBox.position.x <= rect2.position.x + rect2.size.width
-        && rect1.attackBox.height + rect1.attackBox.y >= rect2.position.y
-        && rect1.position.y <= rect2.attackBox.height + rect2.attackBox.y
+        && rect1.attackBox.position.y + rect1.attackBox.height >= rect2.position.y
+        && rect1.attackBox.position.y <= rect2.size.height + rect2.position.y
         && rect1.isAttacking) 
 }
+
+
 
 
 // animate function loops forever used for animating sprites and objects.
@@ -203,12 +219,18 @@ function animate() {
     if (rectCollision(player, enemy)) {
 
         player.isAttacking = false
+        
+        enemy.takeDmg(20)
+        document.querySelector('#enemyHealth').style.width = enemy.health + '%'
     } 
 
     // Detecting attack box collision for enemy attacking player.
     if (rectCollision(enemy, player)) {
 
         enemy.isAttacking = false
+
+        player.takeDMG(20)
+        document.querySelector('#playerHealth').style.width = player.health + '%'
 
     }
 
