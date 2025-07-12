@@ -1,15 +1,23 @@
 <body>
 
 
-    <div style="position:relative;">
-        <!-- Player health bar -->
-        <div style="background-color: yellow; height:30px; width: 100px"></div>
+    <div style="position: relative;">
+        
 
-        <!-- Timer UI -->
-        <div></div>
+        <div style="position:absolute; display:flex; width: 100%">
 
-        <!-- Enemy health bar -->
-        <div></div>
+
+            <!-- Player health bar -->
+            <div style="background-color: yellow; height:30px; width: 100%"></div>
+
+            <!-- Timer UI -->
+            <div style="background-color: red; width: 100px; height: 100px; flex-shrink: 0; "></div>
+
+            <!-- Enemy health bar -->
+            <div style="background-color: yellow; height: 30px; width: 100%"></div>
+        
+        
+        </div>
 
 
         <canvas></canvas>
